@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "PRIMESHOP API REST",
+    "description": "API del storefront de PRIMESHOP. El request 'Auth / Login' guarda el JWT en la variable {{token}} automaticamente; las rutas protegidas ya lo usan.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Registro",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Nuevo Cliente\",\n  \"correo\": \"nuevo@primeshop.com\",\n  \"contrasena\": \"secreto123\",\n  \"telefono\": \"6440001122\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/auth/registro", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "registro" ] }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  var json = pm.response.json();",
+                  "  pm.collectionVariables.set('token', json.token);",
+                  "  pm.test('token recibido', function () { pm.expect(json.token).to.be.a('string'); });",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"correo\": \"cliente@primeshop.com\",\n  \"contrasena\": \"cliente123\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "login" ] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Catalogo",
+      "item": [
+        {
+          "name": "Listar productos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/productos", "host": [ "{{baseUrl}}" ], "path": [ "api", "productos" ] }
+          }
+        },
+        {
+          "name": "Listar productos por categoria",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/productos?categoriaId=1", "host": [ "{{baseUrl}}" ], "path": [ "api", "productos" ], "query": [ { "key": "categoriaId", "value": "1" } ] }
+          }
+        },
+        {
+          "name": "Detalle de producto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/productos/1", "host": [ "{{baseUrl}}" ], "path": [ "api", "productos", "1" ] }
+          }
+        },
+        {
+          "name": "Listar categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/categorias", "host": [ "{{baseUrl}}" ], "path": [ "api", "categorias" ] }
+          }
+        },
+        {
+          "name": "Detalle de categoria",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/categorias/1", "host": [ "{{baseUrl}}" ], "path": [ "api", "categorias", "1" ] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carrito",
+      "item": [
+        {
+          "name": "Ver carrito",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "{{baseUrl}}/api/carrito", "host": [ "{{baseUrl}}" ], "path": [ "api", "carrito" ] }
+          }
+        },
+        {
+          "name": "Agregar item",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"productoId\": 1,\n  \"cantidad\": 2\n}" },
+            "url": { "raw": "{{baseUrl}}/api/carrito/items", "host": [ "{{baseUrl}}" ], "path": [ "api", "carrito", "items" ] }
+          }
+        },
+        {
+          "name": "Actualizar cantidad de un item",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"cantidad\": 3\n}" },
+            "url": { "raw": "{{baseUrl}}/api/carrito/items/1", "host": [ "{{baseUrl}}" ], "path": [ "api", "carrito", "items", "1" ] }
+          }
+        },
+        {
+          "name": "Quitar un item",
+          "request": {
+            "method": "DELETE",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "{{baseUrl}}/api/carrito/items/1", "host": [ "{{baseUrl}}" ], "path": [ "api", "carrito", "items", "1" ] }
+          }
+        },
+        {
+          "name": "Vaciar carrito",
+          "request": {
+            "method": "DELETE",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "{{baseUrl}}/api/carrito", "host": [ "{{baseUrl}}" ], "path": [ "api", "carrito" ] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pedidos",
+      "item": [
+        {
+          "name": "Crear pedido (checkout)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "{{baseUrl}}/api/pedidos", "host": [ "{{baseUrl}}" ], "path": [ "api", "pedidos" ] }
+          }
+        },
+        {
+          "name": "Mis pedidos",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "{{baseUrl}}/api/pedidos", "host": [ "{{baseUrl}}" ], "path": [ "api", "pedidos" ] }
+          }
+        },
+        {
+          "name": "Detalle de un pedido",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "{{baseUrl}}/api/pedidos/1", "host": [ "{{baseUrl}}" ], "path": [ "api", "pedidos", "1" ] }
+          }
+        }
+      ]
+    }
+  ]
+}
