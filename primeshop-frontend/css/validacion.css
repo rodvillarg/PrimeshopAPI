@@ -1,0 +1,30 @@
+/* mensajes generales y errores de campo.
+   Se agregan aparte para no modificar EstilosCompartidos.css. */
+
+.mensaje {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  border-radius: var(--radio);
+}
+.mensaje--error {
+  background-color: #f8dada;
+  color: var(--color-error);
+}
+.mensaje--exito {
+  background-color: #d8f0e7;
+  color: #00674e;
+}
+
+.campo--invalido .campo__control input {
+  border-color: var(--color-error);
+}
+.campo__error {
+  display: block;
+  font-size: 12px;
+  color: var(--color-error);
+  margin-top: 4px;
+  min-height: 14px;
+}

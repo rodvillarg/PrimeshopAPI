@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.replace('login.html');
+    }
+  </script>
+  <title>PRIMESHOP - Editar mis datos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/EstilosCompartidos.css">
+  <link rel="stylesheet" href="css/Cuenta.css">
+  <link rel="stylesheet" href="css/validacion.css">
+</head>
+<body>
+
+  <div class="pagina-cuenta">
+
+    <header class="barra-superior">
+      <a href="mi-cuenta.html" aria-label="Volver">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="20" y1="12" x2="4" y2="12"></line><path d="M10 6l-6 6 6 6"></path>
+        </svg>
+      </a>
+      <span class="barra-superior__titulo">EDITAR MIS DATOS</span>
+      <span style="width:24px"></span>
+    </header>
+
+    <section class="panel" style="margin: 20px 16px;">
+
+      <div id="mensaje-general" class="mensaje mensaje--error" hidden></div>
+      <div id="mensaje-exito" class="mensaje mensaje--exito" hidden></div>
+
+      <form id="editar-perfil-form" novalidate>
+
+        <div class="campo" id="campo-nombre">
+          <label class="campo__etiqueta" for="nombre">Nombre completo</label>
+          <div class="campo__control">
+            <input type="text" id="nombre" name="nombre" autocomplete="name">
+          </div>
+          <span class="campo__error" id="error-nombre"></span>
+        </div>
+
+        <div class="campo" id="campo-correo">
+          <label class="campo__etiqueta" for="correo">Correo electronico</label>
+          <div class="campo__control">
+            <input type="email" id="correo" name="correo" disabled>
+          </div>
+          <span class="campo__error" id="error-correo"></span>
+        </div>
+
+        <div class="campo" id="campo-telefono">
+          <label class="campo__etiqueta" for="telefono">Telefono</label>
+          <div class="campo__control">
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+          </div>
+          <span class="campo__error" id="error-telefono"></span>
+        </div>
+
+        <p class="panel__titulo" style="margin-top: 24px; font-size: 14px;">Cambiar contraseña (opcional)</p>
+
+        <div class="campo" id="campo-contrasenaActual">
+          <label class="campo__etiqueta" for="contrasenaActual">Contraseña actual</label>
+          <div class="campo__control">
+            <input type="password" id="contrasenaActual" name="contrasenaActual" autocomplete="current-password">
+          </div>
+          <span class="campo__error" id="error-contrasenaActual"></span>
+        </div>
+
+        <div class="campo" id="campo-contrasenaNueva">
+          <label class="campo__etiqueta" for="contrasenaNueva">Contraseña nueva</label>
+          <div class="campo__control">
+            <input type="password" id="contrasenaNueva" name="contrasenaNueva" autocomplete="new-password">
+          </div>
+          <span class="campo__error" id="error-contrasenaNueva"></span>
+        </div>
+
+        <div class="autenticacion__acciones" style="margin-top: 20px;">
+          <button type="submit" class="boton boton--primario">Guardar cambios</button>
+        </div>
+
+      </form>
+
+    </section>
+
+  </div>
+
+  <script type="module" src="js/pages/editar-perfil.js"></script>
+</body>
+</html>
